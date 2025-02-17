@@ -1,0 +1,16 @@
+Source: laba1spo
+Section: utils
+Priority: optional
+Maintainer: Usama <usama@sama>
+Build-Depends:
+ debhelper-compat (= 13), build-essential
+Standards-Version: 4.6.2
+
+Package: laba1spo
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+ g++,
+ libc6-dev
+Description: Super puper app
