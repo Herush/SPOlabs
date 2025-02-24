@@ -23,7 +23,8 @@ jobs:
       run: dpkg-buildpackage -us -uc
     - name: working-test
       run: cd .. && ls -la
-    - name: Create Release
+
+    - name: create-release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,3 +34,12 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-release.outputs.upload_url }}
+        asset_path: ../laba1spo_1.0.0_amd64.deb # Путь к файлам для релиза
+        asset_name: laba1spo_1.0.0_amd64.bin
+        asset_content_type: application/octet-stream
