@@ -14,5 +14,6 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  g++,
- libc6-dev
+ libc6-dev,
+ build-essential
 Description: Super puper 52 deb
