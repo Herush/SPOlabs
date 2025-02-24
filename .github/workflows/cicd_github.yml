@@ -26,11 +26,10 @@ jobs:
 
     - name: create-release
       uses: ncipollo/release-action@v1.14.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.MY_SECRET_NAME }}
       with:
         artifactErrorsFailBuild: true 
         artifact: ./laba1spo_1.0.0_amd64.deb  
         body: Bomboclat 
         name: zxcBomboclat52 
         tag: laba1spo
+        token: ${{ secrets.MY_SECRET_NAME }}
