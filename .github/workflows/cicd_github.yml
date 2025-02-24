@@ -22,4 +22,4 @@ jobs:
     - name: package
       run: dpkg-buildpackage -us -uc
     - name: working-test
-      run: cd .. && ll
+      run: cd .. && ls -la
