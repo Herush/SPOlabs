@@ -17,6 +17,8 @@ jobs:
       run: cd ./src && make build
     - name: test
       run: cd ./src && make test
+    - name: pre-package
+      run: sudo apt install -y debhelper-compat
     - name: package
       run: dpkg-buildpackage -us -uc
     - name: working-test
