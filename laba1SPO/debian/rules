@@ -1,6 +1,19 @@
+#!/usr/bin/make -f
 
 %:
 	dh $@ --with=autoreconf
 
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd src && make build
+	
+override_dh_auto_test:
+	cd src && make test
+
 override_dh_auto_install:
-	make DESTDIR=debian/laba1spo install
+	cd src && make package
+
+override_dh_clean:
+	cd src && make clean
+	dh_clean

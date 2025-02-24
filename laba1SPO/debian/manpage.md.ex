@@ -1,6 +1,6 @@
 % laba1spo(SECTION) | User Commands
 %
-% "February 17 2025"
+% "February 23 2025"
 
 [comment]: # The lines above form a Pandoc metadata block. They must be
 [comment]: # the first ones in the file.

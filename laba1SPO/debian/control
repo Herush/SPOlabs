@@ -1,16 +1,18 @@
 Source: laba1spo
-Section: utils
+Section: unknown
 Priority: optional
-Maintainer: Usama <usama@sama>
+Maintainer: Usama and Musalimi
+Rules-Requires-Root: no
 Build-Depends:
  debhelper-compat (= 13), build-essential
 Standards-Version: 4.6.2
 
 Package: laba1spo
 Architecture: any
+Multi-Arch: foreign
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  g++,
  libc6-dev
-Description: Super puper app
+Description: Super puper 52 deb
