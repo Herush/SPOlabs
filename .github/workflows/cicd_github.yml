@@ -1,0 +1,23 @@
+name: github CICD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: build
+      run: cd ./src && make build
+    - name: test
+      run: make test
+    - name: package
+      run: cd .. && dpkg-buildpackage -us -uc
+    - name: working-test
+      run: cd .. && ll
