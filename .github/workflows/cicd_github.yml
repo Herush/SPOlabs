@@ -28,7 +28,7 @@ jobs:
       uses: ncipollo/release-action@v1.14.0
       with:
         artifactErrorsFailBuild: true 
-        artifact: ./laba1spo_1.0.0_amd64.deb  
+        artifact: ../laba1spo_1.0.0_amd64.deb  
         body: Bomboclat 
         name: zxcBomboclat52 
         tag: laba1spo
