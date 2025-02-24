@@ -31,5 +31,5 @@ jobs:
         artifact: ../laba1spo_1.0.0_amd64.deb  
         body: Bomboclat 
         name: zxcBomboclat52 
-        tag: laba1spo
+        tag: laba1spo-release
         token: ${{ secrets.MY_SECRET_NAME }}
