@@ -29,6 +29,8 @@ jobs:
       with:
         name: deb-package
         path: cicd/*.deb
+    - name: Check DEB contents
+      run: dpkg -c ../*.deb
 
   deploy:
     runs-on: ubuntu-latest
