@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: deb-package
-        path: cicd/*.deb
+        path: ../*.deb
 
   deploy:
     runs-on: ubuntu-latest
@@ -41,12 +41,11 @@ jobs:
         options: --privileged
 
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: deb-package
-          path: .
+          path: cicd/
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3.3.0
@@ -55,7 +54,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: Dockerfile
