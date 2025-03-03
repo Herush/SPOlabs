@@ -24,13 +24,13 @@ jobs:
       run: sudo apt install -y debhelper-compat build-essential
     - name: package
       run: dpkg-buildpackage -us -uc
+    - name: Check DEB contents
+      run: dpkg -c ../*.deb
     - name: Upload DEB package
       uses: actions/upload-artifact@v4
       with:
         name: deb-package
         path: cicd/*.deb
-    - name: Check DEB contents
-      run: dpkg -c ../*.deb
 
   deploy:
     runs-on: ubuntu-latest
