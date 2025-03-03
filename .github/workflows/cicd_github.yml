@@ -23,14 +23,16 @@ jobs:
     - name: pre-package
       run: sudo apt install -y debhelper-compat build-essential
     - name: package
-      run: dpkg-buildpackage -us -uc
+      run: dpkg-buildpackage -us -uc 
+    - name: post-package
+      run: mv ../*deb ./cicd/
     - name: Check DEB contents
-      run: dpkg -c ../*.deb
+      run: dpkg -c ./cicd/*.deb
     - name: Upload DEB package
       uses: actions/upload-artifact@v4
       with:
         name: deb-package
-        path: ../*.deb
+        path: ./cicd/*.deb
 
   deploy:
     runs-on: ubuntu-latest
