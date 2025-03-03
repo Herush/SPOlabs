@@ -21,8 +21,11 @@ jobs:
       run: sudo apt install -y debhelper-compat build-essential
     - name: package
       run: dpkg-buildpackage -us -uc
-    - name: working-test
-      run: cd .. && ls -la
+    - name: Upload DEB package
+      uses: actions/upload-artifact@v4
+      with:
+        name: deb-package
+        path: cicd/*.deb
 
   deploy:
     runs-on: ubuntu-latest
