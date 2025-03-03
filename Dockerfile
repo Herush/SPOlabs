@@ -9,4 +9,4 @@ RUN apt-get update && \
     apt-get install -y /tmp/*.deb && \
     rm -rf /var/lib/apt/lists/*
 
-CMD ["laba1spo", "--success-param"]
+CMD ["./usr/bin/laba1spo", "--success-param"]
