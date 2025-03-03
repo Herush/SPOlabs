@@ -1,0 +1,13 @@
+Package: laba1spo-dbgsym
+Package-Type: ddeb
+Source: laba1spo
+Version: 1.0.0
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Usama and Musalimi
+Installed-Size: 16
+Depends: laba1spo (= 1.0.0)
+Section: debug
+Priority: optional
+Description: debug symbols for laba1spo
+Build-Ids: 50f77a6c4e8f288e3272615739e120f8badbf8c3
