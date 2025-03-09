@@ -69,7 +69,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install my-app ./my-app-chart \
+          helm upgrade --install spolabs ./spolabs-chart \
             --set image.tag=${{ github.sha }}
 
       - name: Deploy to Kubernetes
