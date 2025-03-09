@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spolabs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spolabs
+  template:
+    metadata:
+      labels:
+        app: spolabs
+      annotations:
+        prometheus.io/scrape: "true"  # Для автоматического обнаружения Prometheus
+        prometheus.io/port: "8080"    # Порт метрик
+    spec:
+      containers:
+        - name: spolabs
+          image: cherkashiki/spolabs:latest  # Используем образ из CI/CD
+          ports:
+            - containerPort: 80       # Порт приложения
+            - containerPort: 8080      # Порт для метрик
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
