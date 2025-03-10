@@ -16,6 +16,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install Prometheus C++ Client
+      run: |
+        git clone https://github.com/jupp0r/prometheus-cpp.git
+        cd prometheus-cpp
+        git submodule init
+        git submodule update
+        mkdir build
+        cd build
+        cmake .. -DBUILD_SHARED_LIBS=ON
+        make
+        sudo make install
+    
     - name: build
       run: cd ./src && make build
     - name: test
