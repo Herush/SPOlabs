@@ -74,10 +74,10 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
-      # - name: Configure Kubernetes Access
-      #   uses: azure/k8s-set-context@v3
-      #   with:
-      #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      - name: Configure Kubernetes Access
+        uses: azure/k8s-set-context@v3
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
       - name: Deploy with Helm
         run: |
