@@ -94,6 +94,28 @@ jobs:
         minikube kubectl -- get pods -A
         echo "$(minikube kubectl -- config view --flatten)" > ~/.kube/config
 
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Add Prometheus repo
+      run: |
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        helm repo update
+
+    - name: Install Prometheus
+      run: |
+        helm install prometheus prometheus-community/prometheus
+
+    - name: Add Grafana repo
+      run: |
+        helm repo add grafana https://grafana.github.io/helm-charts
+        helm repo update
+
+    - name: Install Grafana
+      run: |
+        helm install grafana grafana/grafana
+
     - name: Deploy to Minikube
       run: |
         kubectl apply -f k8s/deployment.yaml
@@ -104,3 +126,8 @@ jobs:
       run: |
         kubectl get pods
         kubectl get services
+
+    - name: Expose Grafana service
+      run: |
+        kubectl expose service grafana --type=NodePort --port=3000 --name=grafana-external
+        minikube service grafana-external --url
