@@ -17,6 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y build-essential cmake git libcurl4-openssl-dev
+
     - name: Install Prometheus C++ Client
       run: |
         git clone https://github.com/jupp0r/prometheus-cpp.git
