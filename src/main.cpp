@@ -1,7 +1,16 @@
 #include <iostream>
 #include <string>
+#include <prometheus/exposer.h>
+#include <prometheus/registry.h>
 
 int main() {
+    auto registry = std::make_shared<prometheus::Registry>();
+    auto& counter = prometheus::BuildCounter()
+    .Name("requests_total")
+    .Help("Total requests")
+    .Register(*registry)
+    .Add({});
+    
     std::cout << "Enter string: " << std::endl;
     std::string str1;
     std::getline(std::cin, str1);
