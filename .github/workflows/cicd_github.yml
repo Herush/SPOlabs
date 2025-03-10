@@ -82,6 +82,6 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBE_CONFIG" > ~/.kube/config
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-          kubectl apply -f hpa.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/hpa.yaml
