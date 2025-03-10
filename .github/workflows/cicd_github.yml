@@ -70,18 +70,37 @@ jobs:
   k8s-deploy:
     runs-on: ubuntu-latest
     needs: deploy
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-      - name: Deploy to Kubernetes
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-        run: |
-          mkdir -p ~/.kube
-          echo "$KUBE_CONFIG" > ~/.kube/config
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/hpa.yaml
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Start Minikube with Docker driver
+      run: |
+        minikube start --driver=docker
+        minikube status
+
+    - name: Configure kubectl
+      run: |
+        minikube kubectl -- get pods -A
+        echo "$(minikube kubectl -- config view --flatten)" > ~/.kube/config
+
+    - name: Deploy to Minikube
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+        kubectl apply -f k8s/hpa.yaml
+
+    - name: Verify deployment
+      run: |
+        kubectl get pods
+        kubectl get services
