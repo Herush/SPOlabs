@@ -74,67 +74,59 @@ jobs:
       docker:
         image: docker:dind
         options: --privileged
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-  - name: Install Minikube
-    run: |
-      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-      sudo install minikube-linux-amd64 /usr/local/bin/minikube
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-  - name: Start Minikube with Docker driver
-    run: |
-      minikube start --driver=docker
-      minikube status
+    - name: Start Minikube with Docker driver
+      run: |
+        minikube start --driver=docker
+        minikube status
 
-  - name: Configure kubectl
-    run: |
-      minikube kubectl -- get pods -A
-      echo "$(minikube kubectl -- config view --flatten)" > ~/.kube/config
+    - name: Configure kubectl
+      run: |
+        minikube kubectl -- get pods -A
+        echo "$(minikube kubectl -- config view --flatten)" > ~/.kube/config
 
-  - name: Install Helm
-    run: |
-      curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-  - name: Add Prometheus repo
-    run: |
-      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      helm repo update
+    - name: Add Prometheus repo
+      run: |
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        helm repo update
 
-  - name: Install Prometheus
-    run: |
-      helm install prometheus prometheus-community/prometheus
+    - name: Install Prometheus
+      run: |
+        helm install prometheus prometheus-community/prometheus
 
-  - name: Add Grafana repo
-    run: |
-      helm repo add grafana https://grafana.github.io/helm-charts
-      helm repo update
+    - name: Add Grafana repo
+      run: |
+        helm repo add grafana https://grafana.github.io/helm-charts
+        helm repo update
 
-  - name: Install Grafana
-    run: |
-      helm install grafana grafana/grafana
+    - name: Install Grafana
+      run: |
+        helm install grafana grafana/grafana
 
-  - name: Wait for Grafana to be ready
-    run: |
-      kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=grafana --timeout=300s
+    - name: Deploy to Minikube
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+        kubectl apply -f k8s/hpa.yaml
 
-  - name: Check Grafana logs
-    run: |
-      kubectl logs -l app.kubernetes.io/name=grafana
+    - name: Verify deployment
+      run: |
+        kubectl get pods
+        kubectl get services
 
-  - name: Deploy to Minikube
-    run: |
-      kubectl apply -f k8s/deployment.yaml
-      kubectl apply -f k8s/service.yaml
-      kubectl apply -f k8s/hpa.yaml
-
-  - name: Verify deployment
-    run: |
-      kubectl get pods
-      kubectl get services
-
-  - name: Expose Grafana service
-    run: |
-      kubectl expose service grafana --type=NodePort --port=3000 --name=grafana-external
-      minikube service grafana-external --url
+    - name: Expose Grafana service
+      run: |
+        kubectl expose service grafana --type=NodePort --port=3000 --name=grafana-external
+        minikube service grafana-external --url
