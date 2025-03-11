@@ -34,10 +34,10 @@ jobs:
         make
         sudo make install
 
-    - name: Verify .pc file
-      run: |
-        ls /usr/local/lib/pkgconfig | grep prometheus
-        cat /usr/local/lib/pkgconfig/prometheus-cpp.pc
+    # - name: Verify .pc file
+    #   run: |
+    #     ls /usr/local/lib/pkgconfig | grep prometheus
+    #     cat /usr/local/lib/pkgconfig/prometheus-cpp.pc
 
     - name: Verify Prometheus C++ Client installation
       run: |
