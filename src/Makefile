@@ -8,7 +8,6 @@ PACKAGE_DIR = ../debian-pkg
 check-env:
 	@which $(CXX) > /dev/null || (echo "Error: $(CXX) not found. Install with 'sudo apt install build-essential'"; exit 1)
 	@dpkg -l libc6-dev > /dev/null || (echo "Error: libc6-dev not found. Install with 'sudo apt install libc6-dev'"; exit 1)
-	@pkg-config --exists prometheus-cpp || (echo "Error: prometheus-cpp not found. Install it first."; exit 1)
 
 build: check-env
 	mkdir -p $(BUILD_DIR)
