@@ -1,6 +1,6 @@
 CXX = g++
 CFLAGS = -Wall -Wextra -std=c++17 -I/usr/local/include
-LDFLAGS = -L/usr/local/lib -lprometheus-cpp -lprometheus-cpp-pull -lprometheus-cpp-push -lpthread
+LDFLAGS = -L/usr/local/lib -lprometheus-cpp-core -lprometheus-cpp-pull -lprometheus-cpp-push -lpthread
 BUILD_DIR = ../usr/bin
 TEST_DIR = ../cicd/tests
 PACKAGE_DIR = ../debian-pkg
