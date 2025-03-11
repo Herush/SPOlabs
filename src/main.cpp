@@ -2,14 +2,33 @@
 #include <string>
 #include <prometheus/exposer.h>
 #include <prometheus/registry.h>
+#include <prometheus/counter.h>
 
 int main() {
-    // auto registry = std::make_shared<prometheus::Registry>();
-    // auto& counter = prometheus::BuildCounter()
-    // .Name("requests_total")
-    // .Help("Total requests")
-    // .Register(*registry)
-    // .Add({});
+// Создаем экспортер метрик на порту 8080
+    prometheus::Exposer exposer{"0.0.0.0:8080"};
+
+    // Создаем реестр для метрик
+    auto registry = std::make_shared<prometheus::Registry>();
+
+    // Создаем счетчик
+    auto& counter_family = prometheus::BuildCounter()
+        .Name("requests_total")
+        .Help("Total number of requests")
+        .Register(*registry);
+
+    auto& counter = counter_family.Add({});
+
+    // Экспортируем метрики
+    exposer.RegisterCollectable(registry);
+
+    // Увеличиваем счетчик каждую секунду
+    while (true) {
+        counter.Increment();
+        std::cout << "Counter: " << counter.Value() << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    //--------------------------------------
     
     std::cout << "Enter string: " << std::endl;
     std::string str1;
